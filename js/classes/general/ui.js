@@ -32,10 +32,11 @@ class UI {
 
         div.textContent = message;
 
-        document.querySelector(attachmentTag).appendChild(div);
+        document.querySelector('.upperMenu').appendChild(div);
 
         setTimeout(() => {
             div.remove();
+            location.reload();
         }, 3000);
     }
     
@@ -249,6 +250,7 @@ class UI {
         let posts = storage.getPosts();
         posts = posts.filter(post => post.id != id);
         storage.savePosts(posts);
+        storage.setPosts(posts);
         post.remove();
     }
 
@@ -283,6 +285,7 @@ class UI {
             <p class="post-tags">${post.tags}</p>
             `;   
     };
+
 
 
 }

@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* INITIALIZE THE FUNCTION EVENT FOR THE MAIN PAGE */
     homePageEvents(storage, logic, userInterface);
+    
 /*
     if(page.currentState.constructor.name == 'CreatePage'){
         
@@ -31,31 +32,54 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const home = document.querySelector('#home');
     const create = document.querySelector('#create');
-    const postClicked = document.querySelector('.every-post');
-
+    
+    
     home.addEventListener('click', function (e) {
+        
         page.change(new HomeState());
+        
         homePageEvents(storage, logic, userInterface);
-        e.preventDefault();
+            const postClicked = document.querySelector('.every-post');
+            postClicked.addEventListener('click', (e) =>{
+
+            
+            page.change(new PostState);
+            PostPageEvents(e, storage, userInterface);
+            e.preventDefault();
+        
     });
+        
+
+        
+    });
+
+    const postClicked = document.querySelector('.every-post');
+            postClicked.addEventListener('click', (e) =>{
+                e.preventDefault();
+
+            
+            page.change(new PostState);
+            PostPageEvents(e,  storage, userInterface);
+            
+            });
+
+    //console.log(page.currentState.constructor.name);
+   /* if(page.currentState.constructor.name == 'HomeState' ||
+    page.currentState.constructor.name == 'PostState'
+    ){*/
+    
+    
+    
 
     create.addEventListener('click', function (e) {
         page.change(new CreatePage);
-        PostPageEvents(storage, logic, userInterface);
+        createPageEvents(storage, logic, userInterface);
 
         e.preventDefault();
     });
 
     
-    postClicked.addEventListener('click', (e) =>{
-
-        console.log(e.target.parentElement);
-        page.change(new PostState);
-        PostPageEvents(e, storage, logic, userInterface);
-
-        e.preventDefault();
     
-    });
     
 });
 
@@ -87,9 +111,9 @@ function createPageEvents(storage, logic, userInterface){
             let saved = await logic.addPost(newPost.getPost(), storage);
             if(saved) {
                 userInterface.clearForm();
-                userInterface.displayMessage('Post added successfully', 'green', 'body');
+                userInterface.displayMessage('Post added successfully', 'green');
             } else {
-                userInterface.displayMessage('Post not added', 'red', 'body');
+                userInterface.displayMessage('Post not added', 'red');
             }  
         };  
         reader.readAsDataURL(image);    
@@ -153,7 +177,7 @@ function homePageEvents(storage, logic, userInterface){
     
 }
 
-function PostPageEvents(e, storage, logic, userInterface){
+function PostPageEvents(e, storage, userInterface){
     let post = e.target.parentElement;
 
     userInterface.displayTagsMenu(storage.getTags());
