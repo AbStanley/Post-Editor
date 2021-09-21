@@ -2,7 +2,9 @@ class UI {
   getFormData(image) {
     const title = document.querySelector("#title").value;
     const content = document.querySelector("#content").value;
-    const tags = document.querySelector("#tags").value.toUpperCase().split(",");
+    const tags = document.querySelector("#tags").value.toUpperCase().split(',').map(function (value) {
+      return value.trim();
+   });
 
     let infoImg = image;
 
@@ -208,10 +210,12 @@ class UI {
   saveDone(e, storage) {
     let post = e.target.parentElement;
     let id = post.className;
-    let image = post.querySelector(".input-change").files[0];
+    let image =  e.target.parentElement.querySelector(".input-change").files[0];
     let title = post.querySelector(".post-title").innerText;
     let content = post.querySelector(".post-content").innerText;
-    let tags = post.querySelector(".post-tags").innerText;
+    let tags = post.querySelector(".post-tags").innerText.toUpperCase().split(',').map(function (value) {
+      return value.trim();
+   });
 
     if (image != undefined) {
       const reader = new FileReader();
@@ -225,7 +229,7 @@ class UI {
             post.title = title;
             post.content = content;
             post.tags = tags;
-            document.querySelector(".post-img").src = imageUrl;
+            e.target.parentElement.querySelector(".post-img").src = imageUrl;
           }
         });
         storage.savePosts(posts);
@@ -287,7 +291,6 @@ class UI {
             <h3 class="post-title">${post.title}</h3>
             <p class="post-content">${post.content}</p>
             <p class="post-tags">${post.tags.map(e => " " + e)}</p>
-  
             `;
   }
 }

@@ -16,9 +16,7 @@ class Storage {
     return this.tags;
   }
 
-  getPostsByTag(tag) {
-    // only specific tag
-    
+  getPostsByTag(tag) {   
     return this.postList.filter((post) => post.tags.includes(tag));
   }
 
