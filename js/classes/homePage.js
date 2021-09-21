@@ -14,13 +14,15 @@ class HomeState {
   <div class="every-post">
   <div class="content">
     <div class="feature">
+    <h5>Latest posts: </h5>
       <div class="last-five-posts"></div>
     </div>
-    <hr><br>
+    <div.divider></div><hr><br>
+    <h5>Recent posts: </h5>
     <div class="container">
       <div class="remaining-posts"></div>
     </div>
-  </div>
+  </div.divider>
   </div>  
     `;
   }

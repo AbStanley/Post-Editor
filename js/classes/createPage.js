@@ -1,7 +1,6 @@
-
-class CreatePage  {
-    constructor(page) {
-        document.querySelector(".body").innerHTML = `
+class CreatePage {
+  constructor(page) {
+    document.querySelector(".body").innerHTML = `
 
         <form class="post-form">            
             <label>Image:</label>
@@ -18,8 +17,8 @@ class CreatePage  {
         <div class="all-Posts">
         
         </div>
-        `;        
-    }    
-};
+        `;
+  }
+}
 
 export default CreatePage;

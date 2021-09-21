@@ -1,18 +1,18 @@
-import HomeState from './homePage.js';
-import CreatePage from './createPage.js';
+import HomeState from "./homePage.js";
+import CreatePage from "./createPage.js";
 
 class PageState {
-    constructor() {
-        this.currentState = new HomeState(this);
-    }
+  constructor() {
+    this.currentState = new HomeState(this);
+  }
 
-    initState() {
-        this.change(new HomeState);
-    }
+  initState() {
+    this.change(new HomeState());
+  }
 
-    change (state) {
-        this.currentState = state;
-    }
-};
+  change(state) {
+    this.currentState = state;
+  }
+}
 
-export {PageState};
+export { PageState };

@@ -1,41 +1,40 @@
 class Post {
-    constructor(id, image, title, content, tags) {
-        this.id = id;
-        this.image = image;
-        this.title = title;
-        this.content = content;
-        this.tags = tags;
-    }
+  constructor(id, image, title, content, tags) {
+    this.id = id;
+    this.image = image;
+    this.title = title;
+    this.content = content;
+    this.tags = tags;
+  }
 
-    getPost(){
-        return {
-            id: this.id,
-            image: this.image,
-            title: this.title,
-            content: this.content,
-            tags: this.tags
-        }
-    }
+  getPost() {
+    return {
+      id: this.id,
+      image: this.image,
+      title: this.title,
+      content: this.content,
+      tags: this.tags,
+    };
+  }
 
-    getPostId(){
-        return this.id;
-    }
-    
-    getPostImage(){
-        return this.image;
-    }
+  getPostId() {
+    return this.id;
+  }
 
-    getPostTitle(){
-        return this.title;
-    }
+  getPostImage() {
+    return this.image;
+  }
 
-    getPostContent(){
-        return this.content;
-    }
+  getPostTitle() {
+    return this.title;
+  }
 
-    getPostTags(){
-        return this.tags;
-    }
+  getPostContent() {
+    return this.content;
+  }
 
+  getPostTags() {
+    return this.tags;
+  }
 }
 export default Post;

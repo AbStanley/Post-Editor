@@ -1,326 +1,295 @@
 class UI {
-    getFormData(image) {
-        
-        const title = document.querySelector('#title').value;
-        const content = document.querySelector('#content').value;
-        const tags = document.querySelector('#tags').value.toUpperCase().split(',');
+  getFormData(image) {
+    const title = document.querySelector("#title").value;
+    const content = document.querySelector("#content").value;
+    const tags = document.querySelector("#tags").value.toUpperCase().split(",");
 
-        let infoImg = image;
-        
-        return {
-            id: Date.now(),
-            infoImg,
-            title,
-            content,
-            tags
-        }
-    }
+    let infoImg = image;
 
+    return {
+      id: Date.now(),
+      infoImg,
+      title,
+      content,
+      tags,
+    };
+  }
 
-    clearForm() {
-        document.querySelector('#title').value = '';
-        document.querySelector('#content').value = '';
-        document.querySelector('#tags').value = '';
-    }
+  clearForm() {
+    document.querySelector("#title").value = "";
+    document.querySelector("#content").value = "";
+    document.querySelector("#tags").value = "";
+  }
 
-    displayMessage(message, color, attachmentTag){
+  displayMessage(message, color, attachmentTag) {
+    const div = document.createElement("div");
+    div.classList.add("alert");
 
-        const div = document.createElement('div');
-        div.classList.add('alert');
+    div.style.backgroundColor = color;
+    div.style.color = "#270";
+    div.style.padding = "10px";
+    div.style.marginBottom = "10px";
+    div.style.borderRadius = "5px";
+    div.style.textAlign = "center";
+    div.style.width = "100%";
 
-        div.style.backgroundColor = color;
-        div.style.color = '#270';
-        div.style.padding = '10px';
-        div.style.marginBottom = '10px';
-        div.style.borderRadius = '5px';
-        div.style.textAlign = 'center';
-        div.style.width = '100%';
+    div.textContent = message;
 
+    document.querySelector(".upperMenu").appendChild(div);
 
-        div.textContent = message;
+    setTimeout(() => {
+      div.remove();
+      location.reload();
+    }, 3000);
+  }
 
-        document.querySelector('.upperMenu').appendChild(div);
+  displayTagsMenu(tags) {
+    const tagsMenu = document.querySelector(".tag-container");
+    tagsMenu.style.cursor = "pointer";
 
-        setTimeout(() => {
-            div.remove();
-            location.reload();
-        }, 3000);
-    }
+    const ul = document.createElement("ul");
+    ul.classList.add("tags-group");
+    tagsMenu.appendChild(ul);
+
+    tags
+      .filter((e, index, arr) => arr.indexOf(e) == index)
+      .sort((a, b) => a.localeCompare(b))
+      .map((tag) => {
+        const li = document.createElement("li");
+        li.classList.add("tag");
+        li.textContent = tag.toUpperCase();
+        ul.appendChild(li);
+      });
+  }
+
+  displayTagPosts(tag, storage) {
+    document.querySelector(".content").innerHTML = "";
+    document.querySelector(".content").style.cursor = "pointer";
+
+    let tagPosts = storage.getPostsByTag(tag);
+    tagPosts.filter((e, i, arr) => arr.indexOf(e) == i);
+
+    tagPosts.map((post) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("post");
+
+      const postImg = document.createElement("img");
+      postImg.classList.add("post-img");
+
+      postImg.src = post.image;
+      postDiv.appendChild(postImg);
+
+      postDiv.innerHTML = this.postInsertHTML(post);
+      document.querySelector(".content").appendChild(postDiv);
+    });
+  }
+
+  displayFirstSection(storage) {
+    document.querySelector(".last-five-posts").innerHTML = "";
     
-    displayTagsMenu(tags){
-        
-        const tagsMenu = document.querySelector('.tag-container');
-        tagsMenu.style.cursor = 'pointer';
+    document.querySelector(".last-five-posts").style.cursor = "pointer";
+    let posts = storage.getPosts();
+    posts = posts.sort((a, b) => b.id - a.id);
+    posts = posts.slice(0, 5);
 
-        const ul = document.createElement('ul');
-        ul.classList.add('tags-group');
-        tagsMenu.appendChild(ul);
+    posts.map((post, index) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("recent-post" + index);
 
-        tags.filter((e, index, arr) => arr.indexOf(e) == index)
-            .sort((a, b) => a.localeCompare(b))
-            .map(tag => {
-            const li = document.createElement('li');
-            li.classList.add('tag');
-            li.textContent = tag.toUpperCase();
-            ul.appendChild(li);
-        });
-    }
+      postDiv.innerHTML = this.postInsertHTML(post);
+      document.querySelector(".last-five-posts").appendChild(postDiv);
+    });
+  }
 
-    displayTagPosts(tag, storage){
-        document.querySelector('.content').innerHTML = '';
-        document.querySelector('.content').style.cursor = 'pointer';
+  displayRemainingPosts(storage) {
+    document.querySelector(".remaining-posts").innerHTML = "";
+    document.querySelector(".remaining-posts").style.cursor = "pointer";
 
-        let tagPosts = storage.getPostsByTag(tag);
-        tagPosts.filter((e, i, arr) => arr.indexOf(e) == i);
-                
-        tagPosts.map(post => {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('post');
+    let posts = storage.getPosts();
+    posts = posts.sort((a, b) => b.id - a.id);
+    posts = posts.slice(5);
+    posts.map((post) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("remaining");
+      // add info
+      postDiv.innerHTML = this.postInsertHTML(post);
+      document.querySelector(".remaining-posts").appendChild(postDiv);
+    });
+  }
 
-            console.log(post);
+  displayAllItems(storage) {
+    document.querySelector(".all-Posts").innerHTML = "";
+    document.querySelector(".all-Posts").style.backgroundColor = "#f5f5f5";
+    document.querySelector(".all-Posts").style.cursor = "pointer";
 
-            const postImg = document.createElement('img');
-            postImg.classList.add('post-img');
-            
-            postImg.src = post.image;
-            postDiv.appendChild(postImg);
+    let posts = storage.getPosts();
+    posts = posts.sort((a, b) => b.id - a.id);
+    posts.map((post) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("post");
+      // add info
+      postDiv.innerHTML = this.postInsertHTML(post);
+      document.querySelector(".all-Posts").appendChild(postDiv);
+    });
+  }
 
-            postDiv.innerHTML = this.postInsertHTML(post);
-            document.querySelector('.content').appendChild(postDiv);
-        });
-    }
+  displayAllItems_Edit(storage) {
+    document.querySelector(".all-Posts").innerHTML = "";
+    document.querySelector(".all-Posts").style.backgroundColor = "#f5f5f5";
 
-    displayFirstSection(storage){
-        document.querySelector('.last-five-posts').innerHTML = '';
-        document.querySelector('.last-five-posts').style.backgroundColor = '#f5f5f5';
-        document.querySelector('.last-five-posts').style.cursor = 'pointer';
-        let posts = storage.getPosts();
-        posts = posts.sort((a, b) => b.id  - a.id)
-        posts = posts.slice(0, 5);
-        
-        posts.map((post, index) => {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('recent-post'+ index);
-   
-            postDiv.innerHTML = this.postInsertHTML(post);      
-            document.querySelector('.last-five-posts').appendChild(postDiv);
-        });
-    }
-
-    displayRemainingPosts(storage){
-        document.querySelector('.remaining-posts').innerHTML = '';
-        document.querySelector('.remaining-posts').style.cursor = 'pointer';
-
-        let posts = storage.getPosts();
-        posts = posts.sort((a, b) => b.id  - a.id)
-        posts = posts.slice(5);
-        posts.map(post => {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('remaining');
-            // add info
-            postDiv.innerHTML = this.postInsertHTML(post);         
-            document.querySelector('.remaining-posts').appendChild(postDiv);
-        });
-    }
-
-    displayAllItems(storage){
-        document.querySelector('.all-Posts').innerHTML = '';
-        document.querySelector('.all-Posts').style.backgroundColor = '#f5f5f5';
-        document.querySelector('.all-Posts').style.cursor = 'pointer';
-
-        let posts = storage.getPosts();
-        posts = posts.sort((a, b) => b.id  - a.id)
-        posts.map(post => {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('post');
-            // add info
-            postDiv.innerHTML = this.postInsertHTML(post);     
-            document.querySelector('.all-Posts').appendChild(postDiv);
-        });
-    }
-
-    displayAllItems_Edit(storage){
-        document.querySelector('.all-Posts').innerHTML = '';
-        document.querySelector('.all-Posts').style.backgroundColor = '#f5f5f5';
-        
-
-        let posts = storage.getPosts();
-        posts = posts.sort((a, b) => b.id  - a.id)
-        posts.map(post => {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add(post.id);
-            // add info
-            postDiv.innerHTML = this.postInsertHTML(post);
-            postDiv.innerHTML += `
+    let posts = storage.getPosts();
+    posts = posts.sort((a, b) => b.id - a.id);
+    posts.map((post) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add(post.id);
+      postDiv.innerHTML = this.postInsertHTML(post);
+      postDiv.innerHTML += `
                 <button class="edit-post" data-id="${post.id}">Edit</button>
                 <button class="delete-post" data-id="${post.id}">Delete</button>
-            `;            
-            document.querySelector('.all-Posts').appendChild(postDiv);
-        });
-    }
+            `;
+      document.querySelector(".all-Posts").appendChild(postDiv);
+    });
+  }
 
-    enableEditPost(e){
-        let post = e.target.parentElement;
-        /*
-        post.style.marginTop = '-50vh';
-        // margin left -100px
-        post.style.marginLeft = '-100px';
-        // position
-        post.style.position = 'fixed';
-        // top
-        post.style.top = '50%';
-        post.style.left = '50%';
-        post.style.height = '100vh';
-        */
+  enableEditPost(e) {
+    let post = e.target.parentElement;
 
-        // remove overflow css
+    let inputFile = document.createElement("input");
+    inputFile.type = "file";
+    inputFile.classList.add("input-change");
+    inputFile.name = "image";
+    inputFile.accept = "image/*";
 
+    post.appendChild(inputFile);
 
-        //create input file
-        let inputFile = document.createElement('input');
-        inputFile.type = 'file';
-        inputFile.classList.add('input-change');
-        inputFile.name = 'image';
-        inputFile.accept = 'image/*';
+    let title = post.querySelector(".post-title");
+    title.contentEditable = true;
+    title.style.color = "#5C5C5C";
 
-        // append
-        post.appendChild(inputFile);
+    let content = post.querySelector(".post-content");
+    content.contentEditable = true;
+    content.style.overflow = "visible";
+    content.style.whiteSpace = "initial";
+    content.style.overflowY = "auto";
+    content.style.padding = "padding: 0.3em 0.5em 0 0.5em";
+    content.style.minHeight = "11em";
+    content.style.border = " 2px solid black";
 
-        
-        let title = post.querySelector(".post-title");
-        title.contentEditable = true;
-        title.style.color = "#5C5C5C";
+    content.style.color = "#5C5C5C";
 
-        let content = post.querySelector(".post-content");
-        content.contentEditable = true;
-        content.style.overflow = 'visible';
-        content.style.whiteSpace = 'initial';
-        content.style.overflowY= 'auto';
-        content.style.padding = 'padding: 0.3em 0.5em 0 0.5em';
-        content.style.minHeight = '11em';
-        content.style.border = ' 2px solid black'
-        
-        content.style.color = "#5C5C5C";
+    let tags = post.querySelector(".post-tags");
+    tags.contentEditable = true;
+    tags.style.color = "#5C5C5C";
 
-        let tags = post.querySelector(".post-tags");
-        tags.contentEditable = true;
-        tags.style.color = "#5C5C5C";
+    e.target.innerText = "Done";
+  }
 
-        e.target.innerText = "Done";
-    }
+  disableEditPost(e) {
+    let post = e.target.parentElement;
+    post.removeAttribute("style");
+    let inputFile = post.querySelector(".input-change");
+    post.removeChild(inputFile);
 
-    disableEditPost(e){
+    let title = post.querySelector(".post-title");
+    title.contentEditable = false;
+    title.removeAttribute("style");
 
-        let post = e.target.parentElement;
-        post.removeAttribute("style");
-        let inputFile = post.querySelector('.input-change');
-        post.removeChild(inputFile);
+    let content = post.querySelector(".post-content");
+    content.contentEditable = false;
+    content.removeAttribute("style");
 
-        let title = post.querySelector(".post-title");
-        title.contentEditable = false;
-        title.removeAttribute("style");
+    let tags = post.querySelector(".post-tags");
+    tags.contentEditable = false;
+    tags.removeAttribute("style");
 
-        let content = post.querySelector(".post-content");
-        content.contentEditable = false;
-        content.removeAttribute("style");
+    e.target.innerText = "Edit";
+  }
 
+  saveDone(e, storage) {
+    let post = e.target.parentElement;
+    let id = post.className;
+    let image = post.querySelector(".input-change").files[0];
+    let title = post.querySelector(".post-title").innerText;
+    let content = post.querySelector(".post-content").innerText;
+    let tags = post.querySelector(".post-tags").innerText;
 
-        let tags = post.querySelector(".post-tags");
-        tags.contentEditable = false;
-        tags.removeAttribute("style");
-
-        e.target.innerText = "Edit";
-    }
-
-    saveDone(e, storage){
-        let post = e.target.parentElement;
-         let id = post.className;
-        console.log(post.className);
-        let image = post.querySelector('.input-change').files[0];
-        let title = post.querySelector(".post-title").innerText;
-        let content = post.querySelector(".post-content").innerText;
-        let tags = post.querySelector(".post-tags").innerText;
-
-        if (image != undefined){
-        const reader = new FileReader(); 
-        reader.onload = async () => {
-            let imageUrl = reader.result;
-            let posts = storage.getPosts();
-        
-            posts.map(post => {
-                if(post.id == id){
-                    post.image = imageUrl;
-                    post.title = title;
-                    post.content = content;
-                    post.tags = tags;
-                    document.querySelector('.post-img').src = imageUrl;
-                }
-            });
-            storage.savePosts(posts);            
-        };
-        reader.readAsDataURL(image); 
-
-        } else{
-            let posts = storage.getPosts();
-            posts.map(post => {
-                if(post.id == id){
-                    post.title = title;
-                    post.content = content;
-                    post.tags = tags;
-                }
-            });
-            storage.savePosts(posts);
-        }
-    }
-
-    deletePost(e, storage){
-        let post = e.target.parentElement;
-        let id = post.className;
+    if (image != undefined) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        let imageUrl = reader.result;
         let posts = storage.getPosts();
-        posts = posts.filter(post => post.id != id);
+
+        posts.map((post) => {
+          if (post.id == id) {
+            post.image = imageUrl;
+            post.title = title;
+            post.content = content;
+            post.tags = tags;
+            document.querySelector(".post-img").src = imageUrl;
+          }
+        });
         storage.savePosts(posts);
-        storage.setPosts(posts);
-        post.remove();
+      };
+      reader.readAsDataURL(image);
+    } else {
+      let posts = storage.getPosts();
+      posts.map((post) => {
+        if (post.id == id) {
+          post.title = title;
+          post.content = content;
+          post.tags = tags;
+        }
+      });
+      storage.savePosts(posts);
     }
+  }
 
-    searchByName(value, storage){
-        console.log(value);
-        let posts = storage.getPosts();
-        posts = posts.filter(post => post.title.toLowerCase().includes(value.toLowerCase()));
-        this.displayFilteredItems(posts, storage);
-    }
+  deletePost(e, storage) {
+    let post = e.target.parentElement;
+    let id = post.className;
+    let posts = storage.getPosts();
+    posts = posts.filter((post) => post.id != id);
+    storage.savePosts(posts);
+    storage.setPosts(posts);
+    post.remove();
+  }
 
-    displayFilteredItems(filteredPosts, storage){
+  searchByName(value, storage) {
+    let posts = storage.getPosts();
+    posts = posts.filter((post) =>
+      post.title.toLowerCase().includes(value.toLowerCase())
+    );
+    this.displayFilteredItems(posts, storage);
+  }
 
-        document.querySelector('.content').innerHTML = '';
-        document.querySelector('.content').style.backgroundColor = '#f5f5f5';
-        document.querySelector('.content').style.cursor = 'pointer';
+  displayFilteredItems(filteredPosts, storage) {
+    document.querySelector(".content").innerHTML = "";
+    document.querySelector(".content").style.backgroundColor = "#f5f5f5";
+    document.querySelector(".content").style.cursor = "pointer";
 
-        
-        let filteredDiv = document.createElement('div');
-        filteredDiv.classList.add('filtered-posts');
-        document.querySelector('.content').appendChild(filteredDiv);
+    let filteredDiv = document.createElement("div");
+    filteredDiv.classList.add("filtered-posts");
+    document.querySelector(".content").appendChild(filteredDiv);
 
+    filteredPosts.map((post) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("post");
 
-        filteredPosts.map(post => {
-            const postDiv = document.createElement('div');
-            postDiv.classList.add('post');         
-            
-            postDiv.innerHTML = this.postInsertHTML(post);
-                     
-            filteredDiv.appendChild(postDiv);
-        });
-    }
+      postDiv.innerHTML = this.postInsertHTML(post);
 
-    postInsertHTML(post){
-        return `   
+      filteredDiv.appendChild(postDiv);
+    });
+  }
+
+  postInsertHTML(post) {
+    return `   
             <img class="post-img" src="${post.image}" style="max-height: 300px;" alt="">
             <h3 class="post-title">${post.title}</h3>
             <p class="post-content">${post.content}</p>
-            <p class="post-tags">${post.tags}</p>
-            `;   
-    };
-
+            <p class="post-tags">${post.tags.map(e => " " + e)}</p>
+  
+            `;
+  }
 }
 
 export default UI;

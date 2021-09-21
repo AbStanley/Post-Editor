@@ -19,6 +19,16 @@ h3 {
     margin: 0;
 }
 
+.post-tags, fullPost-tags {
+    background-color: #c8e4df;
+    color: #1d7567;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
 
 #create, #home{
     background-color: white;
@@ -217,11 +227,16 @@ h3 {
         .recent-post4{
             
             grid-area: fifth;
-            width: 20vw;
+            width: 35vw;
             padding: $normalPadding;
             img {
                 object-fit: cover;
+                object-fit: cover;
                 width:40vw;
+                height:150px;
+                max-width: $imageW;
+                min-width: $middleMinW;
+                
                 
                 max-width: 100%;
                 border-radius: 4px;
@@ -269,3 +284,4 @@ h3 {
     
     max-width: 100vw;
 }
+
