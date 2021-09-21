@@ -233,6 +233,7 @@ class UI {
           }
         });
         storage.savePosts(posts);
+        storage.setPosts(posts);
       };
       reader.readAsDataURL(image);
     } else {
@@ -245,7 +246,9 @@ class UI {
         }
       });
       storage.savePosts(posts);
+      storage.setPosts(posts);
     }
+    
   }
 
   deletePost(e, storage) {
