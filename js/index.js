@@ -21,15 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     page.initState();
     storage.verifyMemory();
 
-    /* INITIALIZE THE FUNCTION EVENT FOR THE MAIN PAGE */
+    
     homePageEvents(storage, logic, userInterface);
-    
-/*
-    if(page.currentState.constructor.name == 'CreatePage'){
-        
-    };  
-    */
-    
+
     const home = document.querySelector('#home');
     const create = document.querySelector('#create');
     
@@ -63,13 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             });
 
-    //console.log(page.currentState.constructor.name);
-   /* if(page.currentState.constructor.name == 'HomeState' ||
-    page.currentState.constructor.name == 'PostState'
-    ){*/
-    
-    
-    
 
     create.addEventListener('click', function (e) {
         page.change(new CreatePage);
@@ -77,10 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         e.preventDefault();
     });
-
-    
-    
-    
+ 
 });
 
 function createPageEvents(storage, logic, userInterface){
@@ -111,9 +95,9 @@ function createPageEvents(storage, logic, userInterface){
             let saved = await logic.addPost(newPost.getPost(), storage);
             if(saved) {
                 userInterface.clearForm();
-                userInterface.displayMessage('Post added successfully', 'green');
+                userInterface.displayMessage('Post added successfully', '#DFF2BF');
             } else {
-                userInterface.displayMessage('Post not added', 'red');
+                userInterface.displayMessage('Post not added', '#FFBABA');
             }  
         };  
         reader.readAsDataURL(image);    
@@ -137,19 +121,16 @@ function createPageEvents(storage, logic, userInterface){
             previousClick = '';
         }
         else if (e.target.innerText == 'Delete'){
+            if(confirm('Are you sure you want to delete this post?')){           
             userInterface.deletePost(e, storage);
+            }
         }
+        
     }); 
-
-    
-         
-    
-
 }
 
 function homePageEvents(storage, logic, userInterface){
     
-    /*console.log(storage.getTags());*/
     userInterface.displayTagsMenu(storage.getTags());
     userInterface.displayFirstSection(storage);
     userInterface.displayRemainingPosts(storage);
@@ -180,7 +161,6 @@ function homePageEvents(storage, logic, userInterface){
 function PostPageEvents(e, storage, userInterface){
     let post = e.target.parentElement;    
 
-    //console.log(post.querySelector('.post-title').textContent);
     let img = document.querySelector('.fullPost-img');
     let title = document.querySelector('.fullPost-title');
     let content = document.querySelector('.fullPost-content');
@@ -190,6 +170,4 @@ function PostPageEvents(e, storage, userInterface){
     title.textContent = post.querySelector('.post-title').textContent;
     content.textContent = post.querySelector('.post-content').textContent;
     tags.textContent = post.querySelector('.post-tags').textContent;
-
-
 }

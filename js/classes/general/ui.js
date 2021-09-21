@@ -29,6 +29,13 @@ class UI {
         div.classList.add('alert');
 
         div.style.backgroundColor = color;
+        div.style.color = '#270';
+        div.style.padding = '10px';
+        div.style.marginBottom = '10px';
+        div.style.borderRadius = '5px';
+        div.style.textAlign = 'center';
+        div.style.width = '100%';
+
 
         div.textContent = message;
 
@@ -289,13 +296,19 @@ class UI {
         document.querySelector('.content').style.backgroundColor = '#f5f5f5';
         document.querySelector('.content').style.cursor = 'pointer';
 
+        
+        let filteredDiv = document.createElement('div');
+        filteredDiv.classList.add('filtered-posts');
+        document.querySelector('.content').appendChild(filteredDiv);
+
+
         filteredPosts.map(post => {
             const postDiv = document.createElement('div');
             postDiv.classList.add('post');         
             
             postDiv.innerHTML = this.postInsertHTML(post);
                      
-            document.querySelector('.content').appendChild(postDiv);
+            filteredDiv.appendChild(postDiv);
         });
     }
 
@@ -307,8 +320,6 @@ class UI {
             <p class="post-tags">${post.tags}</p>
             `;   
     };
-
-
 
 }
 

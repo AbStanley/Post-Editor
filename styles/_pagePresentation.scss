@@ -27,7 +27,7 @@
         padding-right: 20px;
         padding-top: 50px;
         padding-bottom: 50px;
-        height: 46vh;
+        min-height: 30vh;
    }
    .fullPost-tags{
         text-align: center;
@@ -35,8 +35,6 @@
         padding: 15px 15px;
         background-color: rgb(230, 230, 230);
         border-radius: 4px;
-        
-
    }
     
 }
