@@ -2,7 +2,8 @@
 class CreatePage  {
     constructor(page) {
         document.querySelector(".body").innerHTML = `
-        <form class="post-form">
+
+        <form class="post-form">            
             <label>Image:</label>
             <input type="file" id="img" name="img" accept="image/*" required>
             <label>Title:</label>

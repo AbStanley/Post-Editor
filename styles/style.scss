@@ -1,22 +1,39 @@
 @import "./header";
 @import "./search";
 @import "./createForm";
+@import "./pagePresentation";
 
 
 $middleMinW: 10vw;
 $middleH: 10vh;
-$imageW: 10vw;
+$imageW: 20vw;
 $normalPadding: 7px 2px;
 
-.tag-container{
-    
-    display: flex;
-    ;
-    //flex-wrap: wrap;
-    // center div elements 
-    
+.upperMenu{
+float: right;
+padding-left: 10px;
+}
+
+h3 {
+    padding: 0;
+    margin: 0;
+}
+
+
+#create, #home{
+    background-color: white;
+    color: black;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    cursor: pointer;
 
     
+}
+.tag-container{
+    
+    display: flex; 
     max-width: 100%;
     ul {
         list-style-type: none;
@@ -65,7 +82,8 @@ $normalPadding: 7px 2px;
     overflow: hidden;
     white-space: nowrap;
 }
-.all-Posts {    
+.all-Posts { 
+    border-radius: 5px;
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 10px;
@@ -94,6 +112,10 @@ $normalPadding: 7px 2px;
         max-width: 100%;
         width: 18rem;
         height: 25vh;
+
+        object-fit: cover;
+        width:230px;
+        height:230px;
        
       }
       
@@ -120,7 +142,7 @@ $normalPadding: 7px 2px;
     max-width: 100vh;
     margin: 0; padding: 0;
     
-    
+
     display: grid;
     grid-template-areas:
         'first second fifth'
@@ -128,35 +150,47 @@ $normalPadding: 7px 2px;
         'first forth fifth';
     
         .recent-post0{
-            
             grid-area: first;
             width: 42vw;
             padding: $normalPadding; 
             img{
-                max-width:40vw;
+                object-fit: cover;
+                width:42vw;
+                height:230px;
+                
             }
           
         }
         .recent-post1{
-            
             grid-area: second;
-            width: 10vw;
+            width: 20vw;
             padding: $normalPadding;
             
-            
             img {
+                object-fit: cover;
+                width:40vw;
+                height:150px;
                 max-width: $imageW;
-                min-width: $middleMinW;
-            }
-            
+                min-width: $middleMinW; 
+                
+                grid-row-start: 1;
+                grid-column-start: 1;
+             
+                grid-row-end: 2;
+                grid-column-end: 2;
+
+            } 
         }
         .recent-post2{
             
             grid-area: third;
-            width: 10vw;
+            width: 20vw;
             padding: $normalPadding;
     
             img {
+                object-fit: cover;
+                width:40vw;
+                height:150px;
                 max-width:  $imageW;
                 min-width: $middleMinW;
             }
@@ -164,9 +198,12 @@ $normalPadding: 7px 2px;
         .recent-post3{
             
             grid-area: forth;
-            width: 10vw;
+            width: 20vw;
             padding: $normalPadding;
             img {
+                object-fit: cover;
+                width:40vw;
+                height:150px;
                 min-width: $middleMinW;
                 max-width:  $imageW;
             }
@@ -174,9 +211,12 @@ $normalPadding: 7px 2px;
         .recent-post4{
             
             grid-area: fifth;
-            width: 45vw;
+            width: 20vw;
             padding: $normalPadding;
             img {
+                object-fit: cover;
+                width:40vw;
+                height:230px;
                 max-width: 100%;
             }
            

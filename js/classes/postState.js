@@ -14,6 +14,7 @@ class PostPage {
         </div>
         <div class="fullPost-content">
         </div>
+        <h5>Tags:</h5>
         <div class="fullPost-tags">
         </div>
     </div> 

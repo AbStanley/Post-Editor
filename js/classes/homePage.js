@@ -3,6 +3,7 @@ class HomeState {
     document.querySelector(".body").innerHTML = `
     <div class="header">
     <div class="search">
+   
       <input type="search" class="searchField" />
     </div>
   </div>
@@ -15,6 +16,7 @@ class HomeState {
     <div class="feature">
       <div class="last-five-posts"></div>
     </div>
+    <hr><br>
     <div class="container">
       <div class="remaining-posts"></div>
     </div>

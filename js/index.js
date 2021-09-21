@@ -178,9 +178,7 @@ function homePageEvents(storage, logic, userInterface){
 }
 
 function PostPageEvents(e, storage, userInterface){
-    let post = e.target.parentElement;
-
-    userInterface.displayTagsMenu(storage.getTags());
+    let post = e.target.parentElement;    
 
     //console.log(post.querySelector('.post-title').textContent);
     let img = document.querySelector('.fullPost-img');
