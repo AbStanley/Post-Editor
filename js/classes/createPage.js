@@ -10,7 +10,7 @@ class CreatePage  {
             <label>Body content:</label>
             <textarea id="content" placeholder="Content" required></textarea>
             <label>Tags:</label>
-            <input type="text" id="tags" placeholder="tags" required>
+            <input class='tags-input' type="text" id="tags" placeholder="tags" required>
             <input type="submit" value="Create Post"> 
         </form> 
 

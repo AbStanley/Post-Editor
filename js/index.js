@@ -101,7 +101,7 @@ function createPageEvents(storage, logic, userInterface){
                 id: Date.now(),
                 title: title,
                 content: content,
-                tags: tags,
+                tags: tags.toUpperCase().split(','),
                 image: reader.result
             };
 

@@ -3,7 +3,7 @@ class UI {
         
         const title = document.querySelector('#title').value;
         const content = document.querySelector('#content').value;
-        const tags = document.querySelector('#tags').value;
+        const tags = document.querySelector('#tags').value.toUpperCase().split(',');
 
         let infoImg = image;
         
@@ -54,7 +54,7 @@ class UI {
             .map(tag => {
             const li = document.createElement('li');
             li.classList.add('tag');
-            li.textContent = tag;
+            li.textContent = tag.toUpperCase();
             ul.appendChild(li);
         });
     }
@@ -91,9 +91,9 @@ class UI {
         posts = posts.sort((a, b) => b.id  - a.id)
         posts = posts.slice(0, 5);
         
-        posts.map(post => {
+        posts.map((post, index) => {
             const postDiv = document.createElement('div');
-            postDiv.classList.add('recent-post');
+            postDiv.classList.add('recent-post'+ index);
    
             postDiv.innerHTML = this.postInsertHTML(post);      
             document.querySelector('.last-five-posts').appendChild(postDiv);
@@ -102,7 +102,6 @@ class UI {
 
     displayRemainingPosts(storage){
         document.querySelector('.remaining-posts').innerHTML = '';
-        document.querySelector('.remaining-posts').style.backgroundColor = '#d8f8f8';
         document.querySelector('.remaining-posts').style.cursor = 'pointer';
 
         let posts = storage.getPosts();
@@ -155,6 +154,20 @@ class UI {
 
     enableEditPost(e){
         let post = e.target.parentElement;
+        /*
+        post.style.marginTop = '-50vh';
+        // margin left -100px
+        post.style.marginLeft = '-100px';
+        // position
+        post.style.position = 'fixed';
+        // top
+        post.style.top = '50%';
+        post.style.left = '50%';
+        post.style.height = '100vh';
+        */
+
+        // remove overflow css
+
 
         //create input file
         let inputFile = document.createElement('input');
@@ -173,6 +186,13 @@ class UI {
 
         let content = post.querySelector(".post-content");
         content.contentEditable = true;
+        content.style.overflow = 'visible';
+        content.style.whiteSpace = 'initial';
+        content.style.overflowY= 'auto';
+        content.style.padding = 'padding: 0.3em 0.5em 0 0.5em';
+        content.style.minHeight = '11em';
+        content.style.border = ' 2px solid black'
+        
         content.style.color = "#5C5C5C";
 
         let tags = post.querySelector(".post-tags");
@@ -183,8 +203,9 @@ class UI {
     }
 
     disableEditPost(e){
-        let post = e.target.parentElement;
 
+        let post = e.target.parentElement;
+        post.removeAttribute("style");
         let inputFile = post.querySelector('.input-change');
         post.removeChild(inputFile);
 
@@ -195,6 +216,7 @@ class UI {
         let content = post.querySelector(".post-content");
         content.contentEditable = false;
         content.removeAttribute("style");
+
 
         let tags = post.querySelector(".post-tags");
         tags.contentEditable = false;
@@ -279,7 +301,7 @@ class UI {
 
     postInsertHTML(post){
         return `   
-            <img class="post-img" src="${post.image}" style="max-height: 400px; max-width: 200px;" alt="">
+            <img class="post-img" src="${post.image}" style="max-height: 300px;" alt="">
             <h3 class="post-title">${post.title}</h3>
             <p class="post-content">${post.content}</p>
             <p class="post-tags">${post.tags}</p>

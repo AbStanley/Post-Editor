@@ -3,8 +3,7 @@ class HomeState {
     document.querySelector(".body").innerHTML = `
     <div class="header">
     <div class="search">
-      <input type="text" class="searchField" />
-      <button class="search-posts">Search</button>
+      <input type="search" class="searchField" />
     </div>
   </div>
   <div class="tags">
